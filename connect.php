@@ -1,5 +1,5 @@
 <?php
-$db = mysqli_connect('sql301.epizy.com', 'epiz_26346287', '5CwS2JifGdMy', 'epiz_26346287_poimclient');
+$db = mysqli_connect('sql106.epizy.com', 'epiz_26406772', 'b2XAyYwf8gbzhpa', 'epiz_26406772_poim');
 
 // Check connection
 if ($db -> connect_errno) {
