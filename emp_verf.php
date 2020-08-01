@@ -1,10 +1,19 @@
+<?php include('server.php') ?>
+<?php
+$Emp_Id = "";
+$Emp_Name = "";
+$Emp_Branch = "";
+
+
+?>
+
 <!DOCTYPE html>
 <html>
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>POIM1</title>
+    <title>POIM</title>
     <meta name="theme-color" content="#00a80a">
     <link rel="icon" type="image/png" sizes="undefinedxundefined" href="assets/img/BeFunky-design%20(45).png">
     <link rel="icon" type="image/png" sizes="undefinedxundefined" href="assets/img/BeFunky-design%20(45).png">
@@ -35,15 +44,22 @@
                 <h2 class="text-center">Employee Verification</h2>
                 <p class="text-center">ENTER THE EMPLOYEE ID</p>
             </div>
-            <div class="buttons"><input type="text" name="emp_id" placeholder="Enter Emp ID"><a class="btn btn-primary" role="button" href="#">SEARCH</a></div>
-        </div>
-    </div><img class="rounded-circle" src="assets/img/ZPtE0hsG_400x400.jpg" style="width: 150px;height: 150px;margin: 0px 25% 0px 25%;">
-    <h3>EMP ID: &lt;emp_id&gt;</h3>
-    <h3>Name: &lt;emp_name&gt;</h3>
-    <h3>From Branch: &lt;emp_branch&gt;</h3>
-    <nav class="navbar navbar-dark navbar-expand fixed-bottom" style="background-color: #0d161f;height: 55px;">
-        <div class="container"><button class="navbar-toggler" data-toggle="collapse"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button><button class="btn btn-danger" type="button" style="background-color: rgb(255,0,24);margin: 0px 27% 0px 27%;">REPORT FRAUD</button></div>
-    </nav>
+<form method="GET" action="emp_verf.php">
+            <?php include('errors.php'); ?>
+            <div class="form-group"><input class="form-control" type="text" name="Emp_Id" placeholder="Enter the ID"></div>
+            <div class="form-group"><button class="btn btn-primary btn-block" type="submit" style="background-color: Blue;" name="emp_search">SEARCH</button></div>
+</form></div>
+    </div>
+<?php
+	if(empty($emp_ver2))
+		{
+			echo '<script>alert("No Employee Found")</script>';
+}	
+?>
+<img class="rounded-circle" src="assets/img/ZPtE0hsG_400x400.jpg" style="width: 150px;height: 150px;margin: 0px 25% 0px 25%;">
+    <h3>EMP ID: <?php echo $emp_ver2["Emp_Id"];?></h3>
+    <h3>Name: <?php echo $emp_ver2["Emp_Name"];?></h3>
+    <h3>From Branch: <?php echo $emp_ver2["Emp_Branch"];?></h3>
     <script src="assets/js/jquery.min.js"></script>
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.3.1/js/swiper.jquery.min.js"></script>
