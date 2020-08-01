@@ -1,10 +1,11 @@
+<?php include('server.php') ?>
 <!DOCTYPE html>
 <html>
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>POIM1</title>
+    <title>POIM</title>
     <meta name="theme-color" content="#00a80a">
     <link rel="icon" type="image/png" sizes="undefinedxundefined" href="assets/img/BeFunky-design%20(45).png">
     <link rel="icon" type="image/png" sizes="undefinedxundefined" href="assets/img/BeFunky-design%20(45).png">
@@ -30,11 +31,11 @@
 
 <body>
     <div class="contact-clean">
-        <form method="post">
+        <form method="post" action="street_light.php">
             <h3 class="text-center" style="margin: 0px 0px 20px 0px;">Street Light Complain</h3>
             <div class="form-group"><input class="form-control" type="text" name="poll_no" placeholder="Poll No."></div>
-            <div class="form-group"><input class="form-control" type="text" placeholder="Problem Title" name="prob_title"></div>
-            <div class="form-group"><button class="btn btn-secondary" type="submit" style="background-color: #00a80a;">send </button><a href="#" style="margin: 0px 10px ;">Back</a></div>
+            <div class="form-group"><input class="form-control" type="text" placeholder="Problem Title" name="problem_title"></div>
+            <div class="form-group"><button class="btn btn-secondary" type="submit" name="street_light" style="background-color: #00a80a;">send </button><a href="#" style="margin: 0px 10px ;">Back</a></div>
         </form>
     </div>
     <script src="assets/js/jquery.min.js"></script>
