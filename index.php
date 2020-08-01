@@ -1,10 +1,28 @@
+<?php include('connect.php') ?>
+<?php 
+  session_start(); 
+
+  if (!isset($_SESSION['CA'])) {
+    $_SESSION['msg'] = "You must log in first";
+    header('location: login.php');
+  }
+  if (isset($_GET['logout'])) {
+    session_destroy();
+    unset($_SESSION['CA']);
+    header("location: login.php");
+  }
+$ca_no= $_SESSION['CA'];
+  $ca_details_query = "SELECT * FROM CA_details WHERE CA= '$ca_no'";
+$query2 = mysqli_query($db, $ca_details_query);
+$ca_det = mysqli_fetch_assoc($query2);
+?>
 <!DOCTYPE html>
 <html>
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>POIM1</title>
+    <title>POIM</title>
     <meta name="theme-color" content="#00a80a">
     <link rel="icon" type="image/png" sizes="undefinedxundefined" href="assets/img/BeFunky-design%20(45).png">
     <link rel="icon" type="image/png" sizes="undefinedxundefined" href="assets/img/BeFunky-design%20(45).png">
@@ -33,8 +51,10 @@
     <div class="highlight-blue" style="margin: 0px 0px 10px 0px;">
         <div class="container">
             <div class="intro">
-                <h2 class="text-center">Hi &lt;name&gt;!</h2>
-                <p class="text-center" style="margin: -20px 0px 0px 0px;">Your Consumer No is &lt;ca_no&gt;</p>
+                 <?php  if (isset($_SESSION['CA'])) ; ?>
+		<h2 class="text-center">Hi <?php echo $ca_det['Name']; ?>!</h2>
+                <p class="text-center" style="margin: -20px 0px 0px 0px;">Your Consumer No is <strong><?php echo $_SESSION['CA'];?></strong></p>
+                <p class="text-center"> <a href="index.php?logout='1'" style="color: white;">logout</a> </p>
             </div>
         </div>
         <p class="text-center" style="color: rgb(255,255,255);margin: 0;">YOUR BILL AMOUNT</p>
@@ -43,18 +63,18 @@
     <div>
         <div class="container">
             <div class="row">
-                <div class="col-md-4" style="width: 33.3%;"><img src="assets/img/poweroutage.png" style="width: 100%;height: 100PX;"></div>
-                <div class="col-md-4" style="width: 33.3%;"><img src="assets/img/employee%20(2).png" style="width: 100%;height: 100PX;"></div>
-                <div class="col-md-4" style="width: 33.3%;"><img src="assets/img/saftey%20tips.png" style="width: 100%;height: 100PX;"></div>
+                <div class="col-md-4" style="width: 33.3%;"><a href="power_outage.php"><img src="assets/img/poweroutage.png" style="width: 100%;height: 100PX;"></a></div>
+                <div class="col-md-4" style="width: 33.3%;"><a href="emp_verf.php"><img src="assets/img/employee%20(2).png" style="width: 100%;height: 100PX;"></a></div>
+                <div class="col-md-4" style="width: 33.3%;"><a href="safety_tips.html"><img src="assets/img/saftey%20tips.png" style="width: 100%;height: 100PX;"></a></div>
             </div>
         </div>
     </div>
     <div>
         <div class="container">
             <div class="row">
-                <div class="col-md-4" style="width: 33.3%;"><img src="assets/img/streetlgiht.png" style="width: 100%;height: 100PX;"></div>
-                <div class="col-md-4" style="width: 33.3%;"><img src="assets/img/Payments.png" style="width: 100%;height: 100PX;"></div>
-                <div class="col-md-4" style="width: 33.3%;"><img src="assets/img/Smart%20Meter.png" style="width: 100%;height: 100PX;"></div>
+                <div class="col-md-4" style="width: 33.3%;"><a href="street_light.php"><img src="assets/img/streetlgiht.png" style="width: 100%;height: 100PX;"></a></div>
+                <div class="col-md-4" style="width: 33.3%;"><a href="payments.php"><img src="assets/img/Payments.png" style="width: 100%;height: 100PX;"></a></div>
+                <div class="col-md-4" style="width: 33.3%;"><a href="smartmeter.html"><img src="assets/img/Smart Meter.png" style="width: 100%;height: 100PX;" /></a></div>
             </div>
         </div>
     </div>
@@ -63,9 +83,9 @@
             <div class="collapse navbar-collapse" id="navcol-1">
                 <ul class="nav navbar-nav flex-grow-1 justify-content-around">
                     <li class="nav-item" role="presentation"><a class="nav-link active btn" href="#" style="background-color: rgb(13,22,31);"><i class="material-icons" style="font-size: 30px;">home</i></a></li>
-                    <li class="nav-item" role="presentation"><a class="nav-link active btn" href="#" style="background-color: rgb(13,22,31);"><i class="material-icons" style="font-size: 30px;">notifications</i></a></li>
-                    <li class="nav-item" role="presentation"><a class="nav-link active btn" href="#" style="background-color: rgb(13,22,31);"><i class="material-icons" style="font-size: 30px;">mail</i></a></li>
-                    <li class="nav-item" role="presentation"><a class="nav-link active btn" href="#" style="background-color: rgb(13,22,31);"><i class="material-icons" style="font-size: 30px;">person</i></a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link active btn" href="notification.php" style="background-color: rgb(13,22,31);"><i class="material-icons" style="font-size: 30px;">notifications</i></a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link active btn" href="user_messages.php" style="background-color: rgb(13,22,31);"><i class="material-icons" style="font-size: 30px;">mail</i></a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link active btn" href="user_profile.php" style="background-color: rgb(13,22,31);"><i class="material-icons" style="font-size: 30px;">person</i></a></li>
                 </ul>
             </div>
         </div>
