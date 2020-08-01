@@ -1,10 +1,11 @@
+<?php include('server.php') ?>
 <!DOCTYPE html>
 <html>
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>POIM1</title>
+    <title>POIM</title>
     <meta name="theme-color" content="#00a80a">
     <link rel="icon" type="image/png" sizes="undefinedxundefined" href="assets/img/BeFunky-design%20(45).png">
     <link rel="icon" type="image/png" sizes="undefinedxundefined" href="assets/img/BeFunky-design%20(45).png">
@@ -30,12 +31,14 @@
 
 <body>
     <div class="login-clean">
-        <form method="post">
+        <form method="post" action="login.php">
+            <?php include('errors.php'); ?>
             <h2 class="sr-only">Login Form</h2>
             <div class="illustration"><img src="assets/img/BeFunky-design%20(45).png" style="width: 170px;"></div>
-            <div class="form-group"><input class="form-control" type="email" name="ca_no" placeholder="CA number"></div>
+            <div class="form-group"><input class="form-control" type="text" name="CA" placeholder="CA number"></div>
             <div class="form-group"><input class="form-control" type="password" name="password" placeholder="Password"></div>
-            <div class="form-group"><button class="btn btn-primary btn-block" type="submit" style="background-color: #00a80a;">Log In</button></div><a class="forgot" href="#">Forgot your email or password?</a></form>
+            <div class="form-group"><button class="btn btn-primary btn-block" type="submit" style="background-color: #00a80a;" name="login_user">Log In</button></div><a class="forgot" href="http://poimclient.epizy.com/customer1/enter_email.php">Forgot your email or password?</a><br>
+<a class="forgot" href="http://poimclient.epizy.com/customer1/register.php">Create an account</a></form>
         <p class="text-center" style="color: rgb(178,181,184);margin: 20px 0px -60px 0px;">Copyright 2020 TECHMONKS Power Ltd</p>
     </div>
     <div class="social-icons"><a href="#"><i class="icon ion-social-twitter"></i></a><a href="#"><i class="icon ion-social-facebook"></i></a><a href="#"><i class="icon ion-social-snapchat"></i></a><a href="#"><i class="icon ion-social-youtube"></i></a></div>
