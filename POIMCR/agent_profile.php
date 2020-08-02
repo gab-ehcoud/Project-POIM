@@ -1,3 +1,25 @@
+<?php include('server.php'); ?>
+<?php 
+  session_start(); 
+
+  if (!isset($_SESSION['Agent_Id'])) {
+    $_SESSION['msg'] = "You must log in first";
+    header('location: login.php');
+  }
+  if (isset($_GET['logout'])) {
+    session_destroy();
+    unset($_SESSION['Agent_Id']);
+    header("location: login.php");
+  }
+$agent_no= $_SESSION['Agent_Id'];
+  $agent_details_query = "SELECT * FROM agents WHERE Agent_Id= '$agent_no'";
+$query6 = mysqli_query($db, $agent_details_query);
+$ag_det = mysqli_fetch_assoc($query6);
+
+// Set the new timezone
+date_default_timezone_set('Asia/Kolkata');
+$date = date('d-m-y h:i:s');
+?>
 <!DOCTYPE html>
 <html>
 
@@ -45,19 +67,19 @@
                             <tbody>
                                 <tr>
                                     <td style="font-size: 16px;width: 91px;">Name</td>
-                                    <td>Cell 2</td>
+                                    <td><?php echo $ag_det['Name'];?></td>
                                 </tr>
                                 <tr>
                                     <td>ID</td>
-                                    <td>Cell 4</td>
+                                    <td><?php echo $ag_det['Agent_Id'];?></td>
                                 </tr>
                                 <tr>
                                     <td>Email Id</td>
-                                    <td>Cell 2</td>
+                                    <td><?php echo $ag_det['email'];?></td>
                                 </tr>
                                 <tr>
                                     <td>Location</td>
-                                    <td>Cell 2</td>
+                                    <td><?php echo $ag_det['Location'];?></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -72,8 +94,9 @@
                 <h2 class="text-center">Want Some Change</h2>
                 <p class="text-center">Contact Admin. Due to Security concern, the change of the password and any other details is only the courtesy of the admin of the app, i.e Techmonks Power Ltd</p>
             </div>
-            <div class="buttons"><a class="btn btn-primary" role="button" href="tel:+919990808950">Contact</a><a class="btn btn-light" role="button" href="mailto:utkarsh.frankly@gmail.com">mail</a></div>
-        </div>
+            <center><div class="buttons"><a class="btn btn-primary" role="button" href="tel:+919990808950">Contact</a><a class="btn btn-light" role="button" href="mailto:utkarsh.frankly@gmail.com">mail</a></div>
+</center>        
+</div>
     </div>
     <script src="assets/js/jquery.min.js"></script>
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
