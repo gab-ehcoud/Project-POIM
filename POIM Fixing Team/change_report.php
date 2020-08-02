@@ -1,3 +1,24 @@
+<?php include('server.php') ?>
+<?php 
+  session_start(); 
+  $Ft_Id="";
+
+  if (!isset($_SESSION['Ft_Id'])) {
+    $_SESSION['msg'] = "You must log in first";
+    header('location: login.php');
+  }
+  if (isset($_GET['logout'])) {
+    session_destroy();
+    unset($_SESSION['Ft_Id']);
+    header("location: login.php");
+  }
+$ft_id= $_SESSION['Ft_Id'];
+  $query_pow = "SELECT * FROM power_outage WHERE Ft_Id = '$ft_id' ";
+$result1_po = mysqli_query($db, $query_pow);
+if (isset($result1_po)){
+$ft2 = mysqli_fetch_assoc($result1_po);
+}
+?>
 <!DOCTYPE html>
 <html>
 
@@ -24,20 +45,20 @@
             <h6 class="text-muted card-subtitle mb-2">THE DATA SHOWN TO THE CONSUMERS</h6>
             <div class="card" style="margin: 20px 0px ;">
                 <div class="card-body">
-                    <h4 class="card-title">Problem ID : &lt;id&gt;</h4>
-                    <h5 class="text-muted card-subtitle mb-2">PROBLEM TITLE : &lt;Title&gt;</h5>
-                    <h5 class="text-muted card-subtitle mb-2">EST TIME : &lt;Time&gt;</h5>
+                    <h4 class="card-title">Problem ID : <?php echo $ft2["Sno"];?></h4>
+                    <h5 class="text-muted card-subtitle mb-2">PROBLEM TITLE : <?php echo $ft2["Problem_Title"];?></h5>
+                    <h5 class="text-muted card-subtitle mb-2">EST TIME : <?php echo $ft2["Est_Time"];?></h5>
                     <p class="card-text"></p>
                 </div>
             </div>
         </div>
     </div>
     <div class="contact-clean">
-        <form method="post">
+        <form method="post" action="change_report.php">
             <h2 class="text-center">Edit the report</h2>
-            <div class="form-group"><input class="form-control" type="text" name="problem title" placeholder="New Problem Title" required=""></div>
-            <div class="form-group"><input class="form-control" type="number" name="est time" min="0" max="1000" placeholder="New Estimated Time"></div>
-            <div class="form-group text-center"><button class="btn btn-secondary" type="submit" style="background-color: #00a80a;">report</button></div>
+            <div class="form-group"><input class="form-control" type="text" name="pt1"  placeholder="New Problem Title" required="" value="<?php echo $ft2['Problem_Title'] ;?>"></div>
+            <div class="form-group"><input class="form-control" type="number" name="et1" min="0" max="1000" placeholder="New Estimated Time" value="<?php echo $ft2['Est_Time'] ;?>></div>
+            <div class="form-group text-center"><center><button class="btn btn-secondary" type="submit"  name="report_new" style="background-color: #00a80a;">report</button></div></center>
         </form>
     </div>
     <script src="assets/js/jquery.min.js"></script>
