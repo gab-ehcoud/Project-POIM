@@ -1,3 +1,44 @@
+<?php include('server.php'); ?>
+<?php 
+  session_start(); 
+
+  if (!isset($_SESSION['Agent_Id'])) {
+    $_SESSION['msg'] = "You must log in first";
+    header('location: login.php');
+  }
+  if (isset($_GET['logout'])) {
+    session_destroy();
+    unset($_SESSION['Agent_Id']);
+    header("location: login.php");
+  }
+$agent_no= $_SESSION['Agent_Id'];
+  $agent_details_query = "SELECT * FROM agents WHERE Agent_Id= '$agent_no'";
+$query6 = mysqli_query($db, $agent_details_query);
+$ag_det = mysqli_fetch_assoc($query6);
+
+//run power outage database
+ $power_outage_last_upadte = "SELECT * FROM power_outage WHERE Sno=(SELECT max(Sno) FROM power_outage)";
+$query7 = mysqli_query($db, $power_outage_last_upadte); 
+$last = mysqli_fetch_assoc($query7);
+
+//total outgae problem
+$total_power_outage="SELECT count(*) as total FROM power_outage WHERE Reported_Time >= NOW() - INTERVAL 1 DAY";
+$query8 = mysqli_query($db, $total_power_outage);
+$total1 = mysqli_fetch_assoc($query8);
+
+//Active outgae problem
+$active_power_outage="SELECT count(*) as active FROM power_outage WHERE Status= ('Detected' OR 'Proccesed' OR 'Solving') AND Reported_Time >= NOW() - INTERVAL 1 DAY ";
+$query9 = mysqli_query($db, $active_power_outage);
+$active1 = mysqli_fetch_assoc($query9);
+//
+$query11 = "SELECT count(*) as total_team FROM power_outage po INNER JOIN fixing_team ft WHERE po.Ft_Id = ft.Ft_Id ";
+$result11 = mysqli_query($db, $query11);
+$active_team = mysqli_fetch_assoc($result11);
+
+// Set the new timezone
+date_default_timezone_set('Asia/Kolkata');
+$date = date('d-m-y h:i:s');
+?>
 <!DOCTYPE html>
 <html>
 
@@ -10,21 +51,16 @@
     <link rel="icon" type="image/png" sizes="500x500" href="assets/img/BeFunky-design%20(45).png">
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
     <link rel="manifest" href="manifest.json">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora">
     <link rel="stylesheet" href="assets/fonts/fontawesome-all.min.css">
     <link rel="stylesheet" href="assets/fonts/font-awesome.min.css">
     <link rel="stylesheet" href="assets/fonts/ionicons.min.css">
     <link rel="stylesheet" href="assets/fonts/material-icons.min.css">
     <link rel="stylesheet" href="assets/fonts/fontawesome5-overrides.min.css">
-    <link rel="stylesheet" href="assets/css/Article-Clean.css">
     <link rel="stylesheet" href="assets/css/Bottom-Resonsive-Menu.css">
     <link rel="stylesheet" href="assets/css/Contact-Form-Clean.css">
     <link rel="stylesheet" href="assets/css/Footer-Basic.css">
     <link rel="stylesheet" href="assets/css/Highlight-Blue.css">
-    <link rel="stylesheet" href="assets/css/Highlight-Clean.css">
-    <link rel="stylesheet" href="assets/css/Highlight-Phone.css">
     <link rel="stylesheet" href="assets/css/Login-Form-Dark.css">
-    <link rel="stylesheet" href="assets/css/Registration-Form-with-Photo.css">
     <link rel="stylesheet" href="assets/css/styles.css">
     <link rel="stylesheet" href="assets/css/Team-Boxed.css">
 </head>
@@ -37,6 +73,7 @@
             </div>
         </div>
     </div>
+<center>
     <div class="team-boxed">
         <div class="container">
             <div class="intro"></div>
@@ -45,24 +82,25 @@
     <div class="col-lg-6 mb-4" style="margin: 10px 0px 0px 0px;">
         <div class="card text-white bg-info shadow">
             <div class="card-body border rounded">
-                <p class="m-0" style="font-size: 13px;padding: 1px;margin: 2px;">TOTAL PROBLEMS DETECTED : &lt;count(*)&gt;</p>
+              <a href="all_prob_insights.php" style="color:white">  <p class="m-0" style="font-size: 13px;padding: 1px;margin: 2px;">TOTAL PROBLEMS DETECTED : <?php echo $total1["total"];?></p></a>
             </div>
         </div>
     </div>
     <div class="col-lg-6 mb-4" style="margin: 10px 0px 0px 0px;">
         <div class="card text-white bg-info shadow" style="background-color: rgb(255,95,95);">
             <div class="card-body border rounded" style="background-color: #ff7c7c;">
-                <p class="m-0" style="font-size: 13px;padding: 1px;margin: 2px;">ACTIVE PROBLEMS : &lt;count(*)&gt;</p>
+              <a href="all_prob_insights.php" style="color:white">    <p class="m-0" style="font-size: 13px;padding: 1px;margin: 2px;">ACTIVE PROBLEMS : <?php echo $active1["active"];?></p></a>
             </div>
         </div>
     </div>
     <div class="col-lg-6 mb-4" style="margin: 10px 0px 0px 0px;">
         <div class="card text-white bg-info shadow">
             <div class="card-body border rounded" style="background-color: #3fff47;">
-                <p class="m-0" style="font-size: 13px;padding: 1px;margin: 2px;">ACTIVE FIXING TEAMS : &lt;count(*)&gt;</p>
+                <p class="m-0" style="font-size: 13px;padding: 1px;margin: 2px;">ACTIVE FIXING TEAMS : <?php echo $active_team["total_team"];?></p>
             </div>
         </div>
     </div>
+</center>
     <div>
         <div class="container">
             <div class="row">
@@ -70,7 +108,7 @@
                     <div class="card text-white bg-info shadow">
                         <div class="card-body border rounded" style="background-color: #94a9a4;width: 100%;">
                             <p class="text-center m-0" style="font-size: 13px;padding: 1px;margin: 2px;">TRANFORMERS OVERHEATED</p>
-                            <h5 class="text-center" style="color: rgb(0,0,0);">Heading</h5>
+                            <h5 class="text-center" style="color: rgb(0,0,0);">N/A</h5>
                         </div>
                     </div>
                 </div>
@@ -78,13 +116,16 @@
                     <div class="card text-white bg-info shadow">
                         <div class="card-body border rounded" style="background-color: #ff1809;">
                             <p class="text-center m-0" style="font-size: 13px;padding: 1px;margin: 2px;">TOTAL NO. OF AREA AFFECTED</p>
-                            <h5 class="text-center" style="color: rgb(0,0,0);">Heading</h5>
+                            <h5 class="text-center" style="color: rgb(0,0,0);"><?php echo $active1["active"];?></h5>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    <div></div>
+    <div></div>
+<center>
     <div class="col-lg-7 col-xl-8" style="margin: 10px 0px 0px 0px;">
         <div class="card shadow mb-4">
             <div class="card-header d-flex justify-content-between align-items-center">
@@ -101,6 +142,7 @@
             </div>
         </div>
     </div>
+</center>
     <script src="assets/js/jquery.min.js"></script>
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="assets/js/chart.min.js"></script>
