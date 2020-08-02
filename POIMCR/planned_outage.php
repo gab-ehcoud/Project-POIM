@@ -1,3 +1,17 @@
+<?php include('server.php'); ?>
+<?php 
+  session_start(); 
+
+  if (!isset($_SESSION['Agent_Id'])) {
+    $_SESSION['msg'] = "You must log in first";
+    header('location: login.php');
+  }
+  if (isset($_GET['logout'])) {
+    session_destroy();
+    unset($_SESSION['Agent_Id']);
+    header("location: login.php");
+  }
+?>
 <!DOCTYPE html>
 <html>
 
@@ -10,34 +24,29 @@
     <link rel="icon" type="image/png" sizes="500x500" href="assets/img/BeFunky-design%20(45).png">
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
     <link rel="manifest" href="manifest.json">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora">
     <link rel="stylesheet" href="assets/fonts/fontawesome-all.min.css">
     <link rel="stylesheet" href="assets/fonts/font-awesome.min.css">
     <link rel="stylesheet" href="assets/fonts/ionicons.min.css">
     <link rel="stylesheet" href="assets/fonts/material-icons.min.css">
     <link rel="stylesheet" href="assets/fonts/fontawesome5-overrides.min.css">
-    <link rel="stylesheet" href="assets/css/Article-Clean.css">
     <link rel="stylesheet" href="assets/css/Bottom-Resonsive-Menu.css">
     <link rel="stylesheet" href="assets/css/Contact-Form-Clean.css">
     <link rel="stylesheet" href="assets/css/Footer-Basic.css">
     <link rel="stylesheet" href="assets/css/Highlight-Blue.css">
-    <link rel="stylesheet" href="assets/css/Highlight-Clean.css">
-    <link rel="stylesheet" href="assets/css/Highlight-Phone.css">
     <link rel="stylesheet" href="assets/css/Login-Form-Dark.css">
-    <link rel="stylesheet" href="assets/css/Registration-Form-with-Photo.css">
     <link rel="stylesheet" href="assets/css/styles.css">
-    <link rel="stylesheet" href="assets/css/Team-Boxed.css">
 </head>
 
 <body>
     <div class="contact-clean">
-        <form method="post">
+        <form method="post" action="planned_outage.php">
+<?php include('errors.php'); ?>
             <h2 class="text-center">Planned Outage</h2>
-            <div class="form-group"><input class="form-control" type="text" name="area_code" placeholder="Area Code"></div>
-            <div class="form-group"><input class="form-control" type="datetime-local" name="planned_outage_dt"></div>
-            <div class="form-group"><input class="form-control" type="number" name="planned_outage_hrs" placeholder="Enter the no. of minutes for the Outage"></div>
+            <div class="form-group"><input class="form-control" type="text" name="poac" placeholder="Area Code"></div>
+            <div class="form-group"><input class="form-control" type="datetime-local" name="podt"></div>
+            <div class="form-group"><input class="form-control" type="number" name="poet" placeholder="Enter the no. of minutes for the Outage"></div>
             <div class="form-group"><textarea class="form-control" name="message" placeholder="Enter the Message for the notification to the consumers" rows="14"></textarea></div>
-            <div class="form-group"><button class="btn btn-secondary" type="submit" style="background-color: rgb(232,3,3);">send </button></div>
+            <div class="form-group"><button class="btn btn-secondary" type="submit" name="planned_outage" style="background-color: rgb(232,3,3);">send </button></div>
         </form>
     </div>
     <script src="assets/js/jquery.min.js"></script>
