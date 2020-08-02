@@ -151,22 +151,24 @@ if (count($errors) == 0) {
 }
 }
 //confirmation
+$Fttt_Id=$_SESSION['Ft_Id'];
 if (isset($_POST['stat_sol'])) {
-$Fttt_Id=$_SESSION['Ft_Id'];	
+	
   // receive all input values from the form
   if (count($errors) == 0) {
 	$query5 = "DELETE FROM `power_outage` WHERE Ft_Id= '$Fttt_Id'";
 	mysqli_query($db, $query5);
+	header('location: index.php');
 }
 
 }
-	
+$Ftt_Id=$_SESSION['Ft_Id'];	
 if (isset($_POST['report_new'])) {
   // receive all input values from the form
   $pt1 = mysqli_real_escape_string($db, $_POST['pt1']);
   $et1 = mysqli_real_escape_string($db, $_POST['et1']);
 
-$Ftt_Id=$_SESSION['Ft_Id'];
+
 if (count($errors) == 0) {
 	$query9 = "UPDATE `power_outage` SET Problem_Title='$pt1', Est_Time = '$et1' WHERE Ft_Id= '$Ftt_Id'";
 	mysqli_query($db, $query9);
