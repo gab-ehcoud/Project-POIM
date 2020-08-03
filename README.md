@@ -17,3 +17,6 @@ fixing team accordingly.
 
 # POIM (POWER OUTAGE INFO MODULE) 
 A Power Outage Info module has been invented, designed and developed, which senses electricity supply outages at strategic "nodes" of the Low-tension distribution network. It relays the information back to the Control Room within seconds of occurrence for the Management to take necessary corrective/preventive measures. Not only does the module match the technical requisites, but also, is economic enough to meet the shoe-string budgets of the ailing utilities.
+
+# Installation of Database
+First create the database on you server, download the sql file and upload cum import on your database. Now change the required credentails in connect.php.
